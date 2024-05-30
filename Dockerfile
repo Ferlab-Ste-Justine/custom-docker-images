@@ -1,23 +1,15 @@
-# Stage 1: Use the Cypress included base image
-FROM cypress/included:12.10.0 as cypress-stage
+# Stage 1: Alpine based stage to install MinIO Client
+FROM alpine:latest as minio-installer
 
-# Install NPM and required packages globally
-RUN npm install -g npm@9.5.1 && \
-    npm install -g junit-merge
+# Install wget and ca-certificates for HTTPS connections
+RUN apk --no-cache add wget ca-certificates
 
-# Stage 2: Use Alpine to install MinIO client and copy it over
-FROM alpine:3.15
+# Download and install MinIO Client
+RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc -O /usr/local/bin/mc \
+    && chmod +x /usr/local/bin/mc
 
-# Install MinIO client and any other tools needed from Alpine
-RUN apk add --no-cache bash wget grep curl && \
-    wget https://dl.min.io/client/mc/release/linux-amd64/mc -O /usr/local/bin/mc && \
-    chmod +x /usr/local/bin/mc
+# Stage 2: Cypress base image with MinIO Client copied over
+FROM cypress/included:12.10.0
 
-# Copy the MinIO client to the Cypress image
-COPY --from=cypress-stage /usr/local/bin/mc /usr/local/bin/mc
-
-# Switch back to the Cypress image
-FROM cypress-stage
-
-# Copy everything needed from the Alpine stage
-COPY --from=alpine-stage /usr/local/bin/mc /usr/local/bin/mc
+# Copy MinIO Client from the Alpine stage
+COPY --from=minio-installer /usr/local/bin/mc /usr/local/bin/mc
