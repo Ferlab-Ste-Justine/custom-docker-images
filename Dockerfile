@@ -14,7 +14,7 @@ FROM cypress/included:12.10.0
 # Copy MinIO Client from the Alpine stage
 COPY --from=minio-installer /usr/local/bin/mc /usr/local/bin/mc
 
-# Update apt package lists and install build-essential
-RUN apt-get update \
+# Remove duplicate entries and update apt package lists, then install build-essential
+RUN sed -i '/google/d' /etc/apt/sources.list.d/* \
+    && apt-get update \
     && apt-get install -y build-essential
-
