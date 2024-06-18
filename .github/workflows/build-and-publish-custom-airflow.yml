@@ -22,4 +22,5 @@ jobs:
           password: ${{ secrets.FERLAB_DOCKER_HUB_TOKEN }}
           image: ferlabcrsj/airflow-custom
           tag_format: "latest"
-          dockerfile: 'Dockerfile.airflow-custom'
+          location: "./custom-docker-images"
+          dockerfile: "./custom-docker-images/Dockerfile.airflow-custom"
