@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - Dockerfile.airflow-custom
 
 jobs:
   publish_airflow_custom_image:
@@ -12,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Airflow custom image
-        run: docker build -t ferlabcrsj/airflow-custom:latest -f Dockerfile.airflow .
+        run: docker build -t ferlabcrsj/airflow-custom:latest -f Dockerfile.airflow-custom .
       - name: Push the Airflow custom image on the docker registry
         uses: Ferlab-Ste-Justine/action-push-image@v2
         with:
