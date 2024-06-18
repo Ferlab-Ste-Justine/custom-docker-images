@@ -22,5 +22,4 @@ jobs:
           password: ${{ secrets.FERLAB_DOCKER_HUB_TOKEN }}
           image: ferlabcrsj/cypress-included-custom
           tag_format: "latest"
-          location: './custom-docker-images'
-          dockerfile: './custom-docker-images/Dockerfile.cypress-included-custom'
+          dockerfile: 'Dockerfile.cypress-included-custom'
