@@ -23,4 +23,4 @@ jobs:
           image: ferlabcrsj/airflow-custom
           tag_format: "latest"
           location: './custom-docker-images'
-          dockerfile: 'Dockerfile.airflow-custom'
+          dockerfile: './custom-docker-images/Dockerfile.airflow-custom'
