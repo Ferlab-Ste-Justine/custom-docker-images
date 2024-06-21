@@ -1,3 +1,5 @@
 FROM apache/airflow:2.7.1
-USER airflow
+USER root
+ENV PIP_USER=false
 RUN pip install openpyxl==3.1.4
+USER airflow
