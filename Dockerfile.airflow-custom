@@ -1,3 +1,13 @@
 FROM apache/airflow:2.7.1
+
+USER root
+
+# Ensure system is updated and install only the essential packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 USER airflow
-RUN pip install openpyxl==3.1.4
+
+# Install the required Python package for Airflow as the airflow user
+RUN pip install --user openpyxl==3.1.4

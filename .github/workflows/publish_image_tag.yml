@@ -1,0 +1,28 @@
+name: Build and Publish Airflow Custom Image on Using Semver Tag
+
+on:
+  push:
+    tags:
+      - 'airflow-custom-v*'
+    paths:
+      - Dockerfile.airflow-custom
+
+jobs:
+  build:
+    name: Publish Image
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extract Version Tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/airflow-custom-v}" >> $GITHUB_ENV
+
+      - name: Publish Ferlease Image
+        uses: Ferlab-Ste-Justine/action-push-image@v2
+        with:
+          username: ${{ secrets.FERLAB_DOCKER_HUB_USER }}
+          password: ${{ secrets.FERLAB_DOCKER_HUB_TOKEN }}
+          image: ferlabcrsj/airflow-custom
+          tag_format: "${{ env.VERSION }}"
+          dockerfile: "Dockerfile.airflow-custom"
