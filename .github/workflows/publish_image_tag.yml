@@ -23,6 +23,6 @@ jobs:
         with:
           username: ${{ secrets.FERLAB_DOCKER_HUB_USER }}
           password: ${{ secrets.FERLAB_DOCKER_HUB_TOKEN }}
-          image: ferlabcrsj/ferlease
+          image: ferlabcrsj/airflow-custom
           tag_format: "${{ env.VERSION }}"
           dockerfile: "Dockerfile.airflow-custom"
